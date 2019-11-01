@@ -18,42 +18,56 @@ struct QuizView: View {
     @State var bottomNumber: Int = 0
     @State var correctAnswer: Int = 0
     @State var showSettings: Bool = false
-    // To make sure the user gets unique questions for 5 questions in a row
-    @State var lastFiveQuestions = [Question]()
+    @State var currentQuestion: Question?
+    @State var showResults = false
     
     let operation: Operation
+    
+    private func startNewOrResumeQuiz() {
+        if userSettings.currentQuiz.isQuizCompleted ||  userSettings.currentQuiz.operation != operation {
+            userSettings.currentQuiz = Quiz(questions: [Question](), operation: operation)
+        }
+        
+        generateNewProblem()
+    }
 
     private func generateNewProblem() {
         problemState = .unsolved
         inputedAnswer = ""
-        let currentQuestion = operation.generateQuestion(factFamilies: userSettings.settings.factFamilies, lastFiveQuestions: lastFiveQuestions)
-        topNumber = currentQuestion.firstNumber
-        bottomNumber = currentQuestion.secondNumber
-        correctAnswer = currentQuestion.answer
-        addToQuestionsList(question: currentQuestion)
-    }
-    
-    private func addToQuestionsList(question: Question) {
-        lastFiveQuestions.insert(question, at: 0)
-        while lastFiveQuestions.count > 5 {
-            lastFiveQuestions.removeLast()
-        }
-    }
-    
-    private func generateDivisionProblem() {
-        // TODO: Need to make sure numbers generated for divide equal a whole number
+        currentQuestion = operation.generateQuestion(settings: userSettings.settings)
+        topNumber = currentQuestion!.firstNumber
+        bottomNumber = currentQuestion!.secondNumber
+        correctAnswer = currentQuestion!.answer
+        
+        userSettings.currentQuiz.questions.append(currentQuestion!)
     }
     
     private func answerEntered() {
-        if problemState == .right {
+        if problemState != .unsolved {
             generateNewProblem()
         }
         if inputedAnswer.isEmpty {
-            print("Question Skipped")
-            generateNewProblem()
+            var question = currentQuestion!
+            question.state = .skipped
+            userSettings.currentQuiz.questions.removeLast()
+            userSettings.currentQuiz.questions.append(question)
         }
         if let inputedInt = Int(inputedAnswer) {
             problemState = inputedInt == correctAnswer ? .right : .wrong
+            var question = currentQuestion!
+            question.state = problemState
+            question.userAnswer = inputedInt
+            
+            userSettings.currentQuiz.questions.removeLast()
+            userSettings.currentQuiz.questions.append(question)
+        }
+        print("Count: \(userSettings.currentQuiz.questions.count)")
+        
+        if userSettings.currentQuiz.questions.count == userSettings.numberOfQuestionInQuiz {
+            userSettings.currentQuiz.isQuizCompleted = true
+            showResults = true
+        } else {
+            generateNewProblem()
         }
     }
     
@@ -81,18 +95,54 @@ struct QuizView: View {
                         }
                     }.padding(.horizontal, 16)
                     .padding(.top, 8)
+                    QuizOverview(quiz: $userSettings.currentQuiz)
                     ProblemView(inputedAnswer: $inputedAnswer, problemState: $problemState, topNumber: topNumber, bottomNumber: bottomNumber, operation: operation)
                     Spacer()
                     NumberPadView(inputedAnswer: $inputedAnswer, problemState: $problemState) {
                         self.answerEntered()
                     }
                 }.onAppear() {
-                    self.generateNewProblem()
+                    self.startNewOrResumeQuiz()
                 }.sheet(isPresented: $showSettings) {
                     QuizSettingsView(onDismiss: { self.generateNewProblem() }).environmentObject(self.userSettings).padding(.top, 44)
                 }.padding(.vertical, 40)
             }
+        }.sheet(isPresented: $showResults) {
+            QuizResultsView(quiz: self.userSettings.currentQuiz)
         }
+    }
+}
+
+struct QuizOverview: View {
+    @Binding var quiz: Quiz
+    
+    private var correctQuestionsCount: Int {
+        return quiz.questions.filter { $0.state == .right}.count
+    }
+    
+    private var incorrectQuestionsCount: Int {
+        return quiz.questions.filter { $0.state == .wrong}.count
+    }
+    
+    private var skippedQuestionsCount: Int {
+        return quiz.questions.filter { $0.state == .skipped}.count
+    }
+    
+    var body: some View {
+        HStack {
+            Text("Question \(quiz.questions.count)")
+                .foregroundColor(.black)
+                .font(.custom(appFont, size: 18))
+            Text("Correct: \(correctQuestionsCount)")
+                .foregroundColor(.green)
+                .font(.custom(appFont, size: 18))
+            Text("Incorrect: \(incorrectQuestionsCount)")
+                .foregroundColor(.red)
+                .font(.custom(appFont, size: 18))
+            Text("Skipped: \(skippedQuestionsCount)")
+                .foregroundColor(.yellow)
+                .font(.custom(appFont, size: 18))
+        }.padding(.vertical, 8)
     }
 }
 

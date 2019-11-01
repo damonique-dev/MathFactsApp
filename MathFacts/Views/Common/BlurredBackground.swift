@@ -10,6 +10,7 @@ import SwiftUI
 
 struct BlurredBackground: View {
     let image: UIImage
+    var height: CGFloat = UIScreen.main.bounds.height
 
     var body: some View {
         ZStack {
@@ -17,7 +18,7 @@ struct BlurredBackground: View {
                 .resizable()
                 .renderingMode(.original)
                 .aspectRatio(contentMode: .fill)
-                .frame(height: UIScreen.main.bounds.height)
+                .frame(height: height)
             Color(.white).opacity(0.5)
         }.edgesIgnoringSafeArea(.all)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)

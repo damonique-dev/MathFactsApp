@@ -10,7 +10,7 @@ import Foundation
 
 let appFont = "MarkerFelt-Thin"
 
-enum Operation {
+enum Operation: String, Codable {
     case add
     case subtract
     case multiply
@@ -29,58 +29,58 @@ enum Operation {
         }
     }
     
-    func generateQuestion(factFamilies: Set<Int>, lastFiveQuestions: [Question]) -> Question {
+    func generateQuestion(settings: Settings) -> Question {
         switch self {
         case .add:
-            return generateAdditionProblem(factFamilies: factFamilies, lastFiveQuestions: lastFiveQuestions)
+            return generateAdditionProblem(settings: settings)
         case .subtract:
-            return generateSubtractionProblem(factFamilies: factFamilies, lastFiveQuestions: lastFiveQuestions)
+            return generateSubtractionProblem(settings: settings)
         case .multiply:
-            return generateMultiplicationProblem(factFamilies: factFamilies, lastFiveQuestions: lastFiveQuestions)
+            return generateMultiplicationProblem(settings: settings)
         case .divide:
-            return generateDivisionProblem(factFamilies: factFamilies, lastFiveQuestions: lastFiveQuestions)
+            return generateDivisionProblem(settings: settings)
         }
     }
     
-    private func generateAdditionProblem(factFamilies: Set<Int>, lastFiveQuestions: [Question]) -> Question {
+    private func generateAdditionProblem(settings: Settings) -> Question {
         var newQuestion: Question?
         repeat {
-            let firstNumber = factFamilies.randomElement()!
+            let firstNumber = settings.getFactFamilies().randomElement()!
             let secondNumber = Int.random(in: 0 ... 10)
             let order = Int.random(in: 0 ... 1)
             newQuestion = Question(firstNumber: order == 0 ? firstNumber : secondNumber, secondNumber: order == 0 ? secondNumber : firstNumber, operation: .add, answer: firstNumber + secondNumber)
-        } while (isRepeatedQuestion(question: newQuestion!, lastFiveQuestions: lastFiveQuestions))
+        } while (isRepeatedQuestion(question: newQuestion!, previousQuestions: settings.currentQuiz?.questions ?? []))
         
         return newQuestion!
     }
     
-    private func generateSubtractionProblem(factFamilies: Set<Int>, lastFiveQuestions: [Question]) -> Question {
+    private func generateSubtractionProblem(settings: Settings) -> Question {
         var newQuestion: Question?
         repeat {
-            let firstNumber = factFamilies.randomElement()!
+            let firstNumber = settings.getFactFamilies().randomElement()!
             let secondNumber = Int.random(in: 0 ... firstNumber)
             newQuestion = Question(firstNumber: firstNumber, secondNumber: secondNumber, operation: .subtract, answer: firstNumber - secondNumber)
-        } while (isRepeatedQuestion(question: newQuestion!, lastFiveQuestions: lastFiveQuestions))
+        } while (isRepeatedQuestion(question: newQuestion!, previousQuestions: settings.currentQuiz?.questions ?? []))
 
         return newQuestion!
     }
     
-    private func generateMultiplicationProblem(factFamilies: Set<Int>, lastFiveQuestions: [Question]) -> Question {
+    private func generateMultiplicationProblem(settings: Settings) -> Question {
         var newQuestion: Question?
         repeat {
-            let firstNumber = factFamilies.randomElement()!
+            let firstNumber = settings.getFactFamilies().randomElement()!
             let secondNumber = Int.random(in: 0 ... 10)
             let order = Int.random(in: 0 ... 1)
             newQuestion = Question(firstNumber: order == 0 ? firstNumber : secondNumber, secondNumber: order == 0 ? secondNumber : firstNumber, operation: .multiply, answer: firstNumber * secondNumber)
-        } while (isRepeatedQuestion(question: newQuestion!, lastFiveQuestions: lastFiveQuestions))
+        } while (isRepeatedQuestion(question: newQuestion!, previousQuestions: settings.currentQuiz?.questions ?? []))
         
         return newQuestion!
     }
     
-    private func generateDivisionProblem(factFamilies: Set<Int>, lastFiveQuestions: [Question]) -> Question {
+    private func generateDivisionProblem(settings: Settings) -> Question {
         var newQuestion: Question?
         repeat {
-            let question = generateMultiplicationProblem(factFamilies: factFamilies, lastFiveQuestions: lastFiveQuestions)
+            let question = generateMultiplicationProblem(settings: settings)
             let order = Int.random(in: 0 ... 1)
             let firstNumber = question.answer
             var secondNumber = order == 0 ? question.firstNumber : question.secondNumber
@@ -97,17 +97,17 @@ enum Operation {
                 newQuestion = Question(firstNumber: firstNumber, secondNumber: secondNumber, operation: .divide, answer: firstNumber / secondNumber)
             }
             
-        } while (isRepeatedQuestion(question: newQuestion, lastFiveQuestions: lastFiveQuestions))
+        } while (isRepeatedQuestion(question: newQuestion, previousQuestions: settings.currentQuiz?.questions ?? []))
         
         return newQuestion!
     }
     
-    private func isRepeatedQuestion(question: Question?, lastFiveQuestions: [Question]) -> Bool {
+    private func isRepeatedQuestion(question: Question?, previousQuestions: [Question]) -> Bool {
         if question == nil {
             return true
         }
         
-        for previousQuestion in lastFiveQuestions {
+        for previousQuestion in previousQuestions {
             if previousQuestion == question! {
                 return true
             }
@@ -116,17 +116,21 @@ enum Operation {
     }
 }
 
-enum ProblemState {
+enum ProblemState: String, Codable {
     case unsolved
     case right
     case wrong
+    case skipped
 }
 
-struct Question {
+struct Question: Codable, Identifiable {
+    let id = UUID()
     let firstNumber: Int
     let secondNumber: Int
     let operation: Operation
     let answer: Int
+    var userAnswer: Int?
+    var state: ProblemState = .unsolved
     
     static func == (lhs: Question, rhs: Question) -> Bool {
         return lhs.firstNumber == rhs.firstNumber
@@ -134,4 +138,10 @@ struct Question {
             && lhs.operation == rhs.operation
             && lhs.answer == rhs.answer
     }
+}
+
+struct Quiz: Codable {
+    var questions: [Question]
+    var operation: Operation
+    var isQuizCompleted = false
 }

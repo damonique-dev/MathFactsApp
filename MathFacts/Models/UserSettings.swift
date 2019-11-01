@@ -14,6 +14,12 @@ fileprivate let decoder = JSONDecoder()
 
 class UserSettings: ObservableObject {
     @Published var settings: Settings
+    @Published var numberOfQuestionInQuiz: Int {
+        didSet {
+            settings.numberOfQuestionInQuiz = numberOfQuestionInQuiz
+        }
+    }
+    @Published var currentQuiz: Quiz
     
     init() {
         do {
@@ -26,16 +32,20 @@ class UserSettings: ObservableObject {
             fatalError("Couldn't create save state data with error: \(error)")
         }
         
+        self.numberOfQuestionInQuiz = 10
+        self.currentQuiz = Quiz(questions: [Question](), operation: .add)
+        
         if let data = try? Data(contentsOf: savePath),
             let savedSettings = try? decoder.decode(Settings.self, from: data) {
             self.settings = savedSettings
+            self.numberOfQuestionInQuiz = settings.numberOfQuestionInQuiz
         } else {
             self.settings = Settings()
         }
     }
     
     func resetFactFamilies() {
-        settings.factFamilies = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        settings.factFamilies = []
     }
     
     func archiveSettings() {
@@ -47,5 +57,15 @@ class UserSettings: ObservableObject {
 }
 
 struct Settings: Codable {
-    var factFamilies: Set = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    var factFamilies = Set<Int>()
+    var numberOfQuestionInQuiz = 10
+    var pastQuizzes = [Quiz]()
+    var currentQuiz: Quiz?
+    
+    func getFactFamilies() -> Set<Int> {
+        if factFamilies.isEmpty {
+            return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        }
+        return factFamilies
+    }
 }

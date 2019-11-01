@@ -11,6 +11,7 @@ import SwiftUI
 struct QuizSettingsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var settings: UserSettings
+    
     let onDismiss: () -> ()
     private let width = (UIScreen.main.bounds.width / 3) - 16
     private let height = (UIScreen.main.bounds.height / 15)
@@ -35,29 +36,9 @@ struct QuizSettingsView: View {
                     Text("Quiz Settings")
                         .foregroundColor(.black)
                         .font(.custom(appFont, size: 35))
-                    Text("Choose Fact Families to Quiz on:")
-                        .foregroundColor(.black)
-                        .font(.custom(appFont, size: 20))
-                    Text("(Must select one)")
-                        .foregroundColor(.black)
-                        .font(.custom(appFont, size: 16))
-                    HStack {
-                        FactFamilyButton(value: 0)
-                        FactFamilyButton(value: 1)
-                        FactFamilyButton(value: 2)
-                        FactFamilyButton(value: 3)
-                    }
-                    HStack {
-                        FactFamilyButton(value: 4)
-                        FactFamilyButton(value: 5)
-                        FactFamilyButton(value: 6)
-                        FactFamilyButton(value: 7)
-                    }
-                    HStack {
-                        FactFamilyButton(value: 8)
-                        FactFamilyButton(value: 9)
-                        FactFamilyButton(value: 10)
-                    }
+                    FactFamilySelector()
+                    NumberOfQuestionsSelector().environmentObject(settings)
+                    
                     HStack {
                         Button(action: { self.settings.resetFactFamilies() }) {
                             Text("Reset")
@@ -88,6 +69,53 @@ struct QuizSettingsView: View {
     }
 }
 
+struct FactFamilySelector: View {
+    var body: some View {
+        VStack(spacing: 8) {
+            Text("Choose Fact Families to Quiz on:")
+                .foregroundColor(.black)
+                .font(.custom(appFont, size: 20))
+            HStack {
+                FactFamilyButton(value: 0)
+                FactFamilyButton(value: 1)
+                FactFamilyButton(value: 2)
+                FactFamilyButton(value: 3)
+            }
+            HStack {
+                FactFamilyButton(value: 4)
+                FactFamilyButton(value: 5)
+                FactFamilyButton(value: 6)
+                FactFamilyButton(value: 7)
+            }
+            HStack {
+                FactFamilyButton(value: 8)
+                FactFamilyButton(value: 9)
+                FactFamilyButton(value: 10)
+            }
+        }.padding(.top, 16)
+    }
+}
+
+struct NumberOfQuestionsSelector: View {
+    @EnvironmentObject var settings: UserSettings
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            Text("Choose the number of question in each quiz:")
+                .foregroundColor(.black)
+                .font(.custom(appFont, size: 20))
+            Picker("", selection: $settings.numberOfQuestionInQuiz) {
+                Text("10").tag(10)
+                Text("20").tag(20)
+                Text("30").tag(30)
+            }.pickerStyle(SegmentedPickerStyle())
+                .background(Color.yellow)
+                .cornerRadius(8)
+                .padding(.horizontal, 16)
+        }.padding(.top, 16)
+    }
+}
+
 struct FactFamilyButton: View {
     @EnvironmentObject var userSettings: UserSettings
     let value: Int
@@ -101,9 +129,7 @@ struct FactFamilyButton: View {
     
     private func addOrRemoveFromFactFamily() {
         if isValueIncluded {
-            if userSettings.settings.factFamilies.count > 1 {
-                userSettings.settings.factFamilies.remove(value)
-            }
+            userSettings.settings.factFamilies.remove(value)
         } else {
             userSettings.settings.factFamilies.insert(value)
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F039D584236BFC1C00E97EB4 /* QuizResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F039D583236BFC1C00E97EB4 /* QuizResultsView.swift */; };
 		F054477E236113220045C764 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F054477D236113220045C764 /* AppDelegate.swift */; };
 		F0544780236113220045C764 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F054477F236113220045C764 /* SceneDelegate.swift */; };
 		F0544782236113220045C764 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0544781236113220045C764 /* QuizView.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F039D583236BFC1C00E97EB4 /* QuizResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultsView.swift; sourceTree = "<group>"; };
 		F054477A236113220045C764 /* MathFacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MathFacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F054477D236113220045C764 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F054477F236113220045C764 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				F054479323612A010045C764 /* HomeView.swift */,
 				F0544781236113220045C764 /* QuizView.swift */,
 				F05447962362AB750045C764 /* QuizSettingsView.swift */,
+				F039D583236BFC1C00E97EB4 /* QuizResultsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 			files = (
 				F054477E236113220045C764 /* AppDelegate.swift in Sources */,
 				F0544780236113220045C764 /* SceneDelegate.swift in Sources */,
+				F039D584236BFC1C00E97EB4 /* QuizResultsView.swift in Sources */,
 				F054479D2362C47D0045C764 /* BlurredBackground.swift in Sources */,
 				F05447972362AB750045C764 /* QuizSettingsView.swift in Sources */,
 				F0544782236113220045C764 /* QuizView.swift in Sources */,
