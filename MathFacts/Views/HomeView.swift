@@ -20,16 +20,7 @@ struct HomeView: View {
                     FactOperationButton(text: "Addition (+)", operation: .add)
                     FactOperationButton(text: "Subtraction (-)", operation: .subtract)
                     FactOperationButton(text: "Multiplication (x)", operation: .multiply)
-                    Group {
-                        Text("Division (÷)")
-                            .foregroundColor(.black)
-                            .font(.custom(appFont, size: 30))
-                        + Text("(coming soon)")
-                            .foregroundColor(.black)
-                            .font(.custom(appFont, size: 15))
-                    }.frame(width: UIScreen.main.bounds.width - 36, height: 75)
-                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
-                    .background(Color(.white).opacity(0.5))
+                    FactOperationButton(text: "Division (÷)", operation: .divide)
                     NavigationLink(destination: QuizSettingsView(onDismiss: {})) {
                         Text("Settings")
                             .foregroundColor(.black)

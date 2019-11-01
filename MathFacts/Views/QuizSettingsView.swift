@@ -89,23 +89,23 @@ struct QuizSettingsView: View {
 }
 
 struct FactFamilyButton: View {
-    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var userSettings: UserSettings
     let value: Int
     
     private let width = (UIScreen.main.bounds.width / 4) - 16
     private let height = (UIScreen.main.bounds.height / 15)
     
     private var isValueIncluded: Bool {
-        return settings.factFamilies.contains(value)
+        return userSettings.settings.factFamilies.contains(value)
     }
     
     private func addOrRemoveFromFactFamily() {
         if isValueIncluded {
-            if settings.factFamilies.count > 1 {
-                settings.factFamilies.remove(value)
+            if userSettings.settings.factFamilies.count > 1 {
+                userSettings.settings.factFamilies.remove(value)
             }
         } else {
-            settings.factFamilies.insert(value)
+            userSettings.settings.factFamilies.insert(value)
         }
     }
     

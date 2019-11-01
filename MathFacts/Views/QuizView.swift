@@ -10,7 +10,7 @@ import SwiftUI
 
 struct QuizView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var userSettings: UserSettings
     
     @State var inputedAnswer: String = ""
     @State var problemState: ProblemState = .unsolved
@@ -26,61 +26,11 @@ struct QuizView: View {
     private func generateNewProblem() {
         problemState = .unsolved
         inputedAnswer = ""
-        
-        switch operation {
-        case .add:
-            generateAdditionOrMultiplicationProblem()
-            correctAnswer = topNumber + bottomNumber
-        case .subtract:
-            generateSubtractionProblem()
-        case .multiply:
-            generateAdditionOrMultiplicationProblem()
-            correctAnswer = topNumber * bottomNumber
-//        case .divide:
-//            generateDivisionProblem()
-        }
-    }
-    
-    private func generateAdditionOrMultiplicationProblem() {
-        var firstNumber = 0;
-        var secondNumber = 0;
-        var order = 0;
-        var newQuestion: Question?
-        repeat {
-            firstNumber = settings.factFamilies.randomElement()!
-            secondNumber = Int.random(in: 0 ... 10)
-            order = Int.random(in: 0 ... 1)
-            newQuestion = Question(firstNumber: order == 0 ? firstNumber : secondNumber, secondNumber: order == 0 ? secondNumber : firstNumber, operation: operation)
-        } while (isRepeatedQuestion(question: newQuestion!))
-        
-        topNumber = order == 0 ? firstNumber : secondNumber
-        bottomNumber = order == 0 ? secondNumber : firstNumber
-        addToQuestionsList(question: newQuestion!)
-    }
-    
-    private func generateSubtractionProblem() {
-        var firstNumber = 0;
-        var secondNumber = 0;
-        var newQuestion: Question?
-        repeat {
-            firstNumber = settings.factFamilies.randomElement()!
-            secondNumber = Int.random(in: 0 ... topNumber)
-            newQuestion = Question(firstNumber: firstNumber, secondNumber: secondNumber, operation: operation)
-        } while (isRepeatedQuestion(question: newQuestion!))
-        
-        topNumber = firstNumber
-        bottomNumber = secondNumber
-        correctAnswer = topNumber - bottomNumber
-        addToQuestionsList(question: newQuestion!)
-    }
-    
-    private func isRepeatedQuestion(question: Question) -> Bool {
-        for previousQuestion in lastFiveQuestions {
-            if previousQuestion == question {
-                return true
-            }
-        }
-        return false
+        let currentQuestion = operation.generateQuestion(factFamilies: userSettings.settings.factFamilies, lastFiveQuestions: lastFiveQuestions)
+        topNumber = currentQuestion.firstNumber
+        bottomNumber = currentQuestion.secondNumber
+        correctAnswer = currentQuestion.answer
+        addToQuestionsList(question: currentQuestion)
     }
     
     private func addToQuestionsList(question: Question) {
@@ -96,6 +46,10 @@ struct QuizView: View {
     
     private func answerEntered() {
         if problemState == .right {
+            generateNewProblem()
+        }
+        if inputedAnswer.isEmpty {
+            print("Question Skipped")
             generateNewProblem()
         }
         if let inputedInt = Int(inputedAnswer) {
@@ -135,7 +89,7 @@ struct QuizView: View {
                 }.onAppear() {
                     self.generateNewProblem()
                 }.sheet(isPresented: $showSettings) {
-                    QuizSettingsView(onDismiss: { self.generateNewProblem() }).environmentObject(self.settings).padding(.top, 44)
+                    QuizSettingsView(onDismiss: { self.generateNewProblem() }).environmentObject(self.userSettings).padding(.top, 44)
                 }.padding(.vertical, 40)
             }
         }
@@ -170,8 +124,10 @@ struct ProblemView: View {
                 HStack(spacing: 16) {
                     Text(operation.symbol())
                         .font(.custom(appFont, size: textFontSize))
+                        .foregroundColor(.black)
                     Text("\(bottomNumber)")
                         .font(.custom(appFont, size: textFontSize))
+                        .foregroundColor(.black)
                 }
             }
             .padding(.trailing, 32)
@@ -240,7 +196,7 @@ struct NumberPadView: View {
             HStack {
                 NumberPadButton(text: "Clear") { self.clear() }
                 NumberPadButton(text: "0") { self.addDigitToAnswer(0) }
-                NumberPadButton(text: problemState == .right ? "Next" : "Enter") { self.enterAction() }
+                NumberPadButton(text: inputedAnswer.isEmpty ? "Skip": (problemState == .right ? "Next" : "Enter")) { self.enterAction() }
             }
         }.padding(8)
     }
@@ -256,7 +212,7 @@ struct NumberPadButton: View {
     var body: some View {
         Button(action: action) {
             Text(text)
-                .foregroundColor(text == "Next" ? .green : .black)
+                .foregroundColor(text == "Next" ? .green : ( text == "Skip" ? .yellow : .black))
                 .font(.custom(appFont, size: 30))
         }
         .frame(width: width, height: height)
