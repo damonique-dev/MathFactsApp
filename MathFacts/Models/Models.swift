@@ -29,6 +29,19 @@ enum Operation: String, Codable {
         }
     }
     
+    func toString() -> String {
+        switch self {
+        case .add:
+            return "Addition"
+        case .subtract:
+            return "Subtraction"
+        case .multiply:
+            return "Multiplication"
+        case .divide:
+            return "Division"
+        }
+    }
+    
     func generateQuestion(settings: Settings) -> Question {
         switch self {
         case .add:
@@ -140,7 +153,9 @@ struct Question: Codable, Identifiable {
     }
 }
 
-struct Quiz: Codable {
+struct Quiz: Codable, Identifiable {
+    let id = UUID()
+    let creationDate = Date()
     var questions: [Question]
     var operation: Operation
     var isQuizCompleted = false

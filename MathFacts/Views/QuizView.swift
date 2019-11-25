@@ -20,6 +20,7 @@ struct QuizView: View {
     @State var showSettings: Bool = false
     @State var currentQuestion: Question?
     @State var showResults = false
+    @State var showModal = false
     
     let operation: Operation
     
@@ -61,14 +62,26 @@ struct QuizView: View {
             userSettings.currentQuiz.questions.removeLast()
             userSettings.currentQuiz.questions.append(question)
         }
-        print("Count: \(userSettings.currentQuiz.questions.count)")
         
         if userSettings.currentQuiz.questions.count == userSettings.numberOfQuestionInQuiz {
             userSettings.currentQuiz.isQuizCompleted = true
+            userSettings.settings.pastQuizzes.append(userSettings.currentQuiz)
+            showModal = true
             showResults = true
         } else {
             generateNewProblem()
         }
+    }
+    
+    private func dismissModal() {
+        if showResults {
+            presentationMode.wrappedValue.dismiss()
+        }
+        if showSettings {
+            generateNewProblem()
+        }
+        showSettings = false
+        showResults = false
     }
     
     var body: some View {
@@ -86,7 +99,10 @@ struct QuizView: View {
                             }
                         }
                         Spacer()
-                        Button(action: { self.showSettings.toggle() }) {
+                        Button(action: {
+                            self.showSettings.toggle()
+                            self.showModal.toggle()
+                        }) {
                             HStack {
                                 Image(systemName: "gear")
                                     .foregroundColor(Color.black)
@@ -103,12 +119,17 @@ struct QuizView: View {
                     }
                 }.onAppear() {
                     self.startNewOrResumeQuiz()
-                }.sheet(isPresented: $showSettings) {
-                    QuizSettingsView(onDismiss: { self.generateNewProblem() }).environmentObject(self.userSettings).padding(.top, 44)
                 }.padding(.vertical, 40)
             }
-        }.sheet(isPresented: $showResults) {
-            QuizResultsView(quiz: self.userSettings.currentQuiz)
+        }.sheet(isPresented: $showModal, onDismiss: { self.dismissModal() }) {
+            if self.showSettings {
+                QuizSettingsView(onDismiss: {
+                    self.dismissModal()
+                }).environmentObject(self.userSettings).padding(.top, 60)
+            }
+            if self.showResults {
+                QuizResultsView(quiz: self.userSettings.currentQuiz, onDismiss: { self.dismissModal() })
+            }
         }
     }
 }

@@ -20,6 +20,7 @@
 		F05447992362B1180045C764 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05447982362B1180045C764 /* UserSettings.swift */; };
 		F054479D2362C47D0045C764 /* BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = F054479C2362C47D0045C764 /* BlurredBackground.swift */; };
 		F05447A12362C9F60045C764 /* chawp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F05447A02362C9F60045C764 /* chawp.ttf */; };
+		F0CCCF67238B483B002ABE32 /* QuizHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCCF66238B483B002ABE32 /* QuizHistoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		F05447982362B1180045C764 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		F054479C2362C47D0045C764 /* BlurredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredBackground.swift; sourceTree = "<group>"; };
 		F05447A02362C9F60045C764 /* chawp.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = chawp.ttf; sourceTree = "<group>"; };
+		F0CCCF66238B483B002ABE32 /* QuizHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizHistoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				F0544781236113220045C764 /* QuizView.swift */,
 				F05447962362AB750045C764 /* QuizSettingsView.swift */,
 				F039D583236BFC1C00E97EB4 /* QuizResultsView.swift */,
+				F0CCCF66238B483B002ABE32 /* QuizHistoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 				F0544780236113220045C764 /* SceneDelegate.swift in Sources */,
 				F039D584236BFC1C00E97EB4 /* QuizResultsView.swift in Sources */,
 				F054479D2362C47D0045C764 /* BlurredBackground.swift in Sources */,
+				F0CCCF67238B483B002ABE32 /* QuizHistoryView.swift in Sources */,
 				F05447972362AB750045C764 /* QuizSettingsView.swift in Sources */,
 				F0544782236113220045C764 /* QuizView.swift in Sources */,
 				F05447992362B1180045C764 /* UserSettings.swift in Sources */,

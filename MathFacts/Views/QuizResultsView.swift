@@ -10,17 +10,14 @@ import SwiftUI
 
 struct QuizResultsView: View {
     let quiz: Quiz
-    
-    private func closeQuiz() {
-        
-    }
+    let onDismiss: () -> ()
     
     var body: some View {
         ZStack {
             BlurredBackground(image: UIImage(named:"background")!)
             Color(.white).opacity(0.9).edgesIgnoringSafeArea(.all)
             VStack {
-                Button(action: { self.closeQuiz() }) {
+                Button(action: { self.onDismiss() }) {
                     HStack {
                         Spacer()
                         Image(systemName: "xmark")
@@ -29,15 +26,45 @@ struct QuizResultsView: View {
                             .padding(.trailing, 16)
                     }
                 }
-                ScrollView() {
-                    Section(header: QuizResultsHeaderView(quiz: quiz)) {
-                        ForEach(quiz.questions) { (question) in
-                            QuestionRow(question: question)
-                        }
+                QuizResultsScrollView(quiz: quiz)
+            }.padding(.top, 16)
+            .padding(.vertical, 44)
+        }
+    }
+}
+
+struct QuizResultsScrollView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    let quiz: Quiz
+    
+    var btnBack : some View {
+        Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+            HStack {
+                Image(systemName: "arrow.left")
+                    .foregroundColor(Color.black)
+                    .font(.system(size: 30))
+            }
+        }
+    }
+    
+    private var dateString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, d MMM yyyy"
+        return dateFormatter.string(from: quiz.creationDate)
+    }
+    
+    var body: some View {
+        ZStack {
+            ScrollView() {
+                Section(header: QuizResultsHeaderView(quiz: quiz)) {
+                    ForEach(quiz.questions) { (question) in
+                        QuestionRow(question: question)
                     }
                 }
-            }.padding(.vertical, 44)
-        }
+            }
+        }.navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: btnBack)
+        .navigationBarTitle (Text(dateString), displayMode: .inline)
     }
 }
 
@@ -163,6 +190,6 @@ struct QuizResultsView_Previews: PreviewProvider {
             Question(firstNumber: 888, secondNumber: 888, operation: .add, answer: 888, state: .wrong),
             Question(firstNumber: 888, secondNumber: 888, operation: .add, answer: 888, userAnswer: 888, state: .skipped),
             Question(firstNumber: 888, secondNumber: 888, operation: .add, answer: 888, state: .right),
-        ], operation: .add))
+        ], operation: .add), onDismiss: {})
     }
 }

@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var userSettings: UserSettings
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -21,6 +23,17 @@ struct HomeView: View {
                     FactOperationButton(text: "Subtraction (-)", operation: .subtract)
                     FactOperationButton(text: "Multiplication (x)", operation: .multiply)
                     FactOperationButton(text: "Division (÷)", operation: .divide)
+                    if userSettings.settings.pastQuizzes.count > 0 {
+                        NavigationLink(destination: QuizHistoryView()) {
+                            Text("Quiz History")
+                                .foregroundColor(.black)
+                                .font(.custom(appFont, size: 30))
+                                .frame(width: UIScreen.main.bounds.width - 36, height: 50)
+                                .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
+                                .background(Color.white)
+                        }.padding(.top, 16)
+                    }
+                    
                     NavigationLink(destination: QuizSettingsView(onDismiss: {})) {
                         Text("Settings")
                             .foregroundColor(.black)
@@ -28,7 +41,7 @@ struct HomeView: View {
                             .frame(width: UIScreen.main.bounds.width - 36, height: 50)
                             .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
                             .background(Color.white)
-                    }.padding(.top, 16)
+                    }
                     
                 }
             }
