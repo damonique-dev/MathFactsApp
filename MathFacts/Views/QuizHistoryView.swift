@@ -60,7 +60,10 @@ struct QuizHistoryRow: View {
     private var dateString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM yyyy"
-        return dateFormatter.string(from: quiz.completionDate!)
+        if let date = quiz.completionDate {
+            return dateFormatter.string(from: date)
+        }
+        return ""
     }
     
     private var numOfQuestions: Int {

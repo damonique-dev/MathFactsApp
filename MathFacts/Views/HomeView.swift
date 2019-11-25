@@ -8,11 +8,26 @@
 
 import SwiftUI
 
+struct StartingView: View {
+    var body: some View {
+        VStack {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                NavigationView {
+                    HomeView()
+                }.navigationViewStyle(StackNavigationViewStyle())
+            } else{
+                NavigationView {
+                    HomeView()
+                }
+            }
+        }
+    }
+}
+
 struct HomeView: View {
     @EnvironmentObject var userSettings: UserSettings
     
     var body: some View {
-        NavigationView {
             ZStack {
                 BlurredBackground(image: UIImage(named:"background")!)
                 VStack(spacing: 16) {
@@ -48,7 +63,6 @@ struct HomeView: View {
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)
-        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
