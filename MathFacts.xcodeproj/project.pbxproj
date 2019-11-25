@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A54D9BD497EC978455B0A119 /* Pods_MathFacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 174637AEE7969BD5068FC463 /* Pods_MathFacts.framework */; };
 		F039D584236BFC1C00E97EB4 /* QuizResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F039D583236BFC1C00E97EB4 /* QuizResultsView.swift */; };
 		F054477E236113220045C764 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F054477D236113220045C764 /* AppDelegate.swift */; };
 		F0544780236113220045C764 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F054477F236113220045C764 /* SceneDelegate.swift */; };
@@ -21,9 +22,14 @@
 		F054479D2362C47D0045C764 /* BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = F054479C2362C47D0045C764 /* BlurredBackground.swift */; };
 		F05447A12362C9F60045C764 /* chawp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F05447A02362C9F60045C764 /* chawp.ttf */; };
 		F0CCCF67238B483B002ABE32 /* QuizHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCCF66238B483B002ABE32 /* QuizHistoryView.swift */; };
+		F0CCCF69238B5CCF002ABE32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0CCCF68238B5CCF002ABE32 /* GoogleService-Info.plist */; };
+		F0CCCF6B238B5DC4002ABE32 /* AppAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CCCF6A238B5DC4002ABE32 /* AppAnalytics.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		174637AEE7969BD5068FC463 /* Pods_MathFacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MathFacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		46748DBD3607018D50CFBB20 /* Pods-MathFacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MathFacts.release.xcconfig"; path = "Target Support Files/Pods-MathFacts/Pods-MathFacts.release.xcconfig"; sourceTree = "<group>"; };
+		EDDB48A481C93C32F75DC364 /* Pods-MathFacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MathFacts.debug.xcconfig"; path = "Target Support Files/Pods-MathFacts/Pods-MathFacts.debug.xcconfig"; sourceTree = "<group>"; };
 		F039D583236BFC1C00E97EB4 /* QuizResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultsView.swift; sourceTree = "<group>"; };
 		F054477A236113220045C764 /* MathFacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MathFacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F054477D236113220045C764 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -40,6 +46,8 @@
 		F054479C2362C47D0045C764 /* BlurredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredBackground.swift; sourceTree = "<group>"; };
 		F05447A02362C9F60045C764 /* chawp.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = chawp.ttf; sourceTree = "<group>"; };
 		F0CCCF66238B483B002ABE32 /* QuizHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizHistoryView.swift; sourceTree = "<group>"; };
+		F0CCCF68238B5CCF002ABE32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F0CCCF6A238B5DC4002ABE32 /* AppAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAnalytics.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,17 +55,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A54D9BD497EC978455B0A119 /* Pods_MathFacts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		058358A1AAC6F74BB6A758F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				174637AEE7969BD5068FC463 /* Pods_MathFacts.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E38C169EE9CA7CE2183B4B1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EDDB48A481C93C32F75DC364 /* Pods-MathFacts.debug.xcconfig */,
+				46748DBD3607018D50CFBB20 /* Pods-MathFacts.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		F0544771236113220045C764 = {
 			isa = PBXGroup;
 			children = (
 				F054477C236113220045C764 /* MathFacts */,
 				F054477B236113220045C764 /* Products */,
+				8E38C169EE9CA7CE2183B4B1 /* Pods */,
+				058358A1AAC6F74BB6A758F1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,6 +109,8 @@
 				F0544785236113240045C764 /* Preview Content */,
 				F054477F236113220045C764 /* SceneDelegate.swift */,
 				F05447952362AAA00045C764 /* Views */,
+				F0CCCF68238B5CCF002ABE32 /* GoogleService-Info.plist */,
+				F0CCCF6A238B5DC4002ABE32 /* AppAnalytics.swift */,
 			);
 			path = MathFacts;
 			sourceTree = "<group>";
@@ -138,9 +168,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F054478E236113240045C764 /* Build configuration list for PBXNativeTarget "MathFacts" */;
 			buildPhases = (
+				D1ABB52A54C572BF9EA6AE3A /* [CP] Check Pods Manifest.lock */,
 				F0544776236113220045C764 /* Sources */,
 				F0544777236113220045C764 /* Frameworks */,
 				F0544778236113220045C764 /* Resources */,
+				46C284776390FC1D564842B8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -191,12 +223,55 @@
 			files = (
 				F05447A12362C9F60045C764 /* chawp.ttf in Resources */,
 				F054478A236113240045C764 /* LaunchScreen.storyboard in Resources */,
+				F0CCCF69238B5CCF002ABE32 /* GoogleService-Info.plist in Resources */,
 				F0544787236113240045C764 /* Preview Assets.xcassets in Resources */,
 				F0544784236113240045C764 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		46C284776390FC1D564842B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MathFacts/Pods-MathFacts-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MathFacts/Pods-MathFacts-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MathFacts/Pods-MathFacts-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D1ABB52A54C572BF9EA6AE3A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MathFacts-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F0544776236113220045C764 /* Sources */ = {
@@ -207,6 +282,7 @@
 				F0544780236113220045C764 /* SceneDelegate.swift in Sources */,
 				F039D584236BFC1C00E97EB4 /* QuizResultsView.swift in Sources */,
 				F054479D2362C47D0045C764 /* BlurredBackground.swift in Sources */,
+				F0CCCF6B238B5DC4002ABE32 /* AppAnalytics.swift in Sources */,
 				F0CCCF67238B483B002ABE32 /* QuizHistoryView.swift in Sources */,
 				F05447972362AB750045C764 /* QuizSettingsView.swift in Sources */,
 				F0544782236113220045C764 /* QuizView.swift in Sources */,
@@ -346,6 +422,7 @@
 		};
 		F054478F236113240045C764 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EDDB48A481C93C32F75DC364 /* Pods-MathFacts.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -367,6 +444,7 @@
 		};
 		F0544790236113240045C764 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 46748DBD3607018D50CFBB20 /* Pods-MathFacts.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

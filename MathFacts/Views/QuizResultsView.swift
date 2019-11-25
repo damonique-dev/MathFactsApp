@@ -50,7 +50,7 @@ struct QuizResultsScrollView: View {
     private var dateString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM yyyy"
-        return dateFormatter.string(from: quiz.creationDate)
+        return dateFormatter.string(from: quiz.completionDate!)
     }
     
     var body: some View {
@@ -131,10 +131,8 @@ struct QuestionRow: View {
             return Color.green
         case .wrong:
             return Color.red
-        case .skipped:
-            return Color.yellow
         default:
-            return Color.black
+            return Color.yellow
         }
     }
     
@@ -146,14 +144,12 @@ struct QuestionRow: View {
                         .font(.largeTitle)
                         .foregroundColor(.green)
                         .padding(.trailing, 13)
-                }
-                if question.state == .wrong {
+                } else if question.state == .wrong {
                     Image(systemName: "xmark")
                         .font(.largeTitle)
                         .foregroundColor(.red)
                         .padding(.trailing, 13)
-                }
-                if question.state == .skipped {
+                } else {
                     Image(systemName: "forward")
                         .font(.title)
                         .foregroundColor(.yellow)

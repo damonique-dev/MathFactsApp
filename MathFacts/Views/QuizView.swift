@@ -64,8 +64,10 @@ struct QuizView: View {
         }
         
         if userSettings.currentQuiz.questions.count == userSettings.numberOfQuestionInQuiz {
+            userSettings.currentQuiz.completionDate = Date()
             userSettings.currentQuiz.isQuizCompleted = true
             userSettings.settings.pastQuizzes.append(userSettings.currentQuiz)
+            AppAnalytics.logQuizCompetionEvent(quiz: userSettings.currentQuiz, factFamily: userSettings.settings.getFactFamilies())
             showModal = true
             showResults = true
         } else {
@@ -82,6 +84,7 @@ struct QuizView: View {
         }
         showSettings = false
         showResults = false
+        showModal = false
     }
     
     var body: some View {

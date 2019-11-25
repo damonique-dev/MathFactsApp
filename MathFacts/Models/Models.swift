@@ -155,7 +155,7 @@ struct Question: Codable, Identifiable {
 
 struct Quiz: Codable, Identifiable {
     let id = UUID()
-    let creationDate = Date()
+    var completionDate: Date?
     var questions: [Question]
     var operation: Operation
     var isQuizCompleted = false
