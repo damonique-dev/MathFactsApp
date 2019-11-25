@@ -17,6 +17,7 @@ struct HomeView: View {
                 BlurredBackground(image: UIImage(named:"background")!)
                 VStack(spacing: 16) {
                     Text("Math Facts")
+                        .foregroundColor(.black)
                         .font(.custom(appFont, size: 50))
                         .padding(8)
                     FactOperationButton(text: "Addition (+)", operation: .add)
@@ -47,7 +48,7 @@ struct HomeView: View {
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

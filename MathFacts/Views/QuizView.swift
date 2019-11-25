@@ -194,6 +194,7 @@ struct ProblemView: View {
         VStack(alignment: .trailing, spacing: 8) {
             VStack(alignment: .trailing, spacing: 8) {
                 Text("\(topNumber)")
+                    .foregroundColor(.black)
                     .font(.custom(appFont, size: textFontSize))
                 HStack(spacing: 16) {
                     Text(operation.symbol())
