@@ -289,8 +289,8 @@ struct NumberPadButton: View {
             Text(text)
                 .foregroundColor(text == "Next" ? .green : ( text == "Skip" ? .yellow : .black))
                 .font(.custom(appFont, size: 30))
+                .frame(width: width, height: height)
         }
-        .frame(width: width, height: height)
         .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
         .background(Color.white)
     }

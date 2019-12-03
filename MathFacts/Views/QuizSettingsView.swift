@@ -44,8 +44,8 @@ struct QuizSettingsView: View {
                             Text("Reset")
                                 .foregroundColor(.black)
                                 .font(.custom(appFont, size: 30))
+                                .frame(width: width, height: height)
                         }
-                        .frame(width: width, height: height)
                         .background(RoundedRectangle(cornerRadius: 0).stroke(Color.gray, lineWidth: 2))
                         
                         Button(action: {
@@ -55,8 +55,8 @@ struct QuizSettingsView: View {
                             Text("Close")
                                 .foregroundColor(.black)
                                 .font(.custom(appFont, size: 30))
+                                .frame(width: width, height: height)
                         }
-                        .frame(width: width, height: height)
                         .background(RoundedRectangle(cornerRadius: 0).stroke(Color.gray, lineWidth: 2))
                         .background(Color.yellow)
                         
@@ -140,8 +140,8 @@ struct FactFamilyButton: View {
             Text("\(value)'s")
                 .foregroundColor(.black)
                 .font(.custom(appFont, size: 30))
+                .frame(width: width, height: height)
         }
-        .frame(width: width, height: height)
         .background(RoundedRectangle(cornerRadius: 0).stroke(Color.gray, lineWidth: 2))
         .background(isValueIncluded ? Color.yellow : Color.gray)
     }
